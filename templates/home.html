@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="style.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link rel="stylesheet" href="../static/css/style-ticket.css">
+    </head>
+<script>
+        function exibirHoraAtual() {
+        var data = new Date();
+        var dia = data.getDate();
+        var diaSemana = obterDiaSemana(data.getDay());
+        var hora = data.getHours();
+        var minutos = data.getMinutes();
+        var segundos = data.getSeconds();
+        var mes = data.getMonth() + 1;
+
+        // Formatação dos valores com zero à esquerda se necessário
+        dia = (dia < 10 ? "0" : "") + dia;
+        hora = (hora < 10 ? "0" : "") + hora;
+        minutos = (minutos < 10 ? "0" : "") + minutos;
+        segundos = (segundos < 10 ? "0" : "") + segundos;
+
+
+        // Concatenação da hora formatada
+        var horaAtual = hora + ":" + minutos + ":" + segundos + diaSemana + dia;
+
+        // Atualiza o conteúdo do elemento com o ID "hora-atual"
+        document.getElementById("hora-atual").textContent = horaAtual;
+    }
+
+    // Função auxiliar para obter o dia da semana por extenso
+    function obterDiaSemana(dia) {
+        var diasSemana = [" Dom, ", " Seg, ", " Ter, ", " Qua, ", " Qui, ", " Sex, ", "Sáb, "];
+        return diasSemana[dia];
+    }
+
+    // Chama a função a cada segundo para manter a hora atualizada
+    setInterval(exibirHoraAtual, 1000);
+</script>
+
+<body>
+<nav class="navi">
+    <p id="hora-atual"></p>
+</nav>
+
+    <nav class="menu" id="menu">
+        <ul>
+          <li class="menu-item">
+            <form method="POST" action="/" class="logo">
+                <button type="submit" id="logo" alt="Logo"></button>
+              </form>
+          </li>
+          <li class="menu-item">
+            <form method="POST" action="/" class="home">
+              <button type="submit" id="home"></button>
+              <span class="legenda">Home</span>
+            </form>
+          </li>
+          <li class="menu-item">
+            <form method="POST" action="/criar_ticket">
+              <button type="submit" id="criar_ticket"></button>
+              <span class="legenda">Criar Chamado</span>
+            </form>
+          </li>
+          <li class="menu-item">
+            <form method="POST" action="/tickets_fechados">
+              <button type="submit" id="tickets"></button>
+              <span class="legenda">Chamados Fechados</span>
+            </form>
+          </li>
+          <li class="menu-item">
+            <form method="POST" action="/logout">
+              <button type="submit" id="logout" class="logout"></button>
+              <span class="legenda">Sair</span>
+            </form>
+          </li>
+        </ul>
+      </nav>
+      <div class="user">
+        <label for="autor">Usuario:</label>
+        <div class="user-online-indicator "></div>
+        <input type="text" id="autor" name="autor" value="{{ session['nome_atendente'] }}" readonly><br>
+        <div class="sonar"></div>
+    </div> 
+                
+                <h2>Tickets Abertos</h2>
+                {% if tickets_abertos %}
+                    <ul>
+                    {% for ticket in tickets_abertos %}
+                        <li>
+                            Número do Ticket: {{ ticket.numero }},
+                            Cliente: {{ ticket.cliente }},
+                            Número Telefone: {{ ticket.telefone_cliente}}
+                            Assunto: {{ ticket.assunto }},
+                            Descrição: {{ ticket.descricao }},
+                            Origem: {{ ticket.origem }}, 
+                            Status: {{ ticket.status }}
+                            {% if ticket.status == 'Aberto' %}
+                                <form method="POST" action="/fechar_ticket/{{ ticket.numero }}">
+                                    <input type="submit" value="Fechar Ticket">
+                                </form>
+                            {% endif %}
+                            <a href="{{ url_for('exibir_ticket', numero_ticket=ticket.numero) }}">Detalhes do Ticket</a>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Nenhum ticket aberto.</p>
+                {% endif %}
+
+                <h2>Tickets Fechados</h2>
+                {% if tickets_fechados %}
+                    <ul>
+                    {% for ticket in tickets_fechados %}
+                        <li>
+                            Número do Ticket: {{ ticket.numero }},
+                            Cliente: {{ ticket.cliente }},
+                            Número Telefone: {{ ticket.telefone_cliente}}
+                            Assunto: {{ ticket.assunto }},
+                            Descrição: {{ ticket.descricao }},
+                            Origem: {{ ticket.origem }}, 
+                            Status: {{ ticket.status }}
+                            <a href="{{ url_for('exibir_ticket', numero_ticket=ticket.numero) }}">Detalhes do Ticket</a>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Nenhum ticket fechado.</p>
+                {% endif %}
+
+
+
+
+
+        <script>
+            'use strict'
+
+                const menuSize  = '250px';
+
+                document.querySelector('#btnmenu').addEventListener('click', e => {
+
+
+                    document.querySelector('#menu').style.display = 'block'
+
+                    document.querySelector('#menu').style.marginLeft = 0; 
+
+                });
+
+                document.querySelector('#btnclose').addEventListener('click', e => {
+
+
+
+                    document.querySelector('#menu').style.marginLeft = `-${menuSize}`;
+
+                });
+
+
+        </script>
+    </body>
+</html>

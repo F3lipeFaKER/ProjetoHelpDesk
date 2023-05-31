@@ -1,0 +1,38 @@
+2023/05/30-18:57:04.352 3ec8 Reusing MANIFEST C:\Users\fbdomingos\Downloads\1.2-20230525T111311Z-001\1.2\venom\tokens\helpdesk\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/05/30-18:57:04.354 3ec8 Recovering log #5016
+2023/05/30-18:57:04.398 3ec8 Reusing old log C:\Users\fbdomingos\Downloads\1.2-20230525T111311Z-001\1.2\venom\tokens\helpdesk\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/005016.log 
+2023/05/30-18:57:33.588 3ec8 Level-0 table #5033: started
+2023/05/30-18:57:33.677 3ec8 Level-0 table #5033: 1129326 bytes OK
+2023/05/30-18:57:33.681 3ec8 Delete type=0 #5016
+2023/05/30-18:58:02.469 3ec8 Compacting 1@0 + 1@1 files
+2023/05/30-18:58:02.540 3ec8 Generated table #5034@0: 17143 keys, 411069 bytes
+2023/05/30-18:58:02.561 3ec8 Generated table #5035@0: 562 keys, 10102 bytes
+2023/05/30-18:58:02.561 3ec8 Compacted 1@0 + 1@1 files => 421171 bytes
+2023/05/30-18:58:02.563 3ec8 compacted to: files[ 0 2 14 0 0 0 0 ]
+2023/05/30-18:58:02.564 3ec8 Delete type=2 #5019
+2023/05/30-18:58:02.564 3ec8 Delete type=2 #5033
+2023/05/30-18:58:02.947 47ac Compacting 1@1 + 10@2 files
+2023/05/30-18:58:03.155 47ac Generated table #5036@1: 44175 keys, 2207836 bytes
+2023/05/30-18:58:03.259 47ac Generated table #5037@1: 1837 keys, 2139881 bytes
+2023/05/30-18:58:03.555 47ac Generated table #5038@1: 4030 keys, 2158038 bytes
+2023/05/30-18:58:03.753 47ac Generated table #5039@1: 32361 keys, 2221789 bytes
+2023/05/30-18:58:03.883 47ac Generated table #5040@1: 2106 keys, 2122556 bytes
+2023/05/30-18:58:04.005 47ac Generated table #5041@1: 2769 keys, 2125427 bytes
+2023/05/30-18:58:04.264 47ac Generated table #5042@1: 109501 keys, 2259586 bytes
+2023/05/30-18:58:04.537 47ac Generated table #5043@1: 114701 keys, 2266170 bytes
+2023/05/30-18:58:04.795 47ac Generated table #5044@1: 114711 keys, 2266290 bytes
+2023/05/30-18:58:05.061 47ac Generated table #5045@1: 114672 keys, 2267695 bytes
+2023/05/30-18:58:05.072 47ac Generated table #5046@1: 4492 keys, 89259 bytes
+2023/05/30-18:58:05.072 47ac Compacted 1@1 + 10@2 files => 22124527 bytes
+2023/05/30-18:58:05.075 47ac compacted to: files[ 0 1 15 0 0 0 0 ]
+2023/05/30-18:58:05.075 47ac Delete type=2 #5020
+2023/05/30-18:58:05.076 47ac Delete type=2 #5021
+2023/05/30-18:58:05.076 47ac Delete type=2 #5022
+2023/05/30-18:58:05.076 47ac Delete type=2 #5023
+2023/05/30-18:58:05.076 47ac Delete type=2 #5024
+2023/05/30-18:58:05.076 47ac Delete type=2 #5025
+2023/05/30-18:58:05.076 47ac Delete type=2 #5026
+2023/05/30-18:58:05.076 47ac Delete type=2 #5027
+2023/05/30-18:58:05.076 47ac Delete type=2 #5028
+2023/05/30-18:58:05.076 47ac Delete type=2 #5029
+2023/05/30-18:58:05.076 47ac Delete type=2 #5034

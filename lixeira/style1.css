@@ -1,0 +1,111 @@
+:root{
+    --menu-size: 220px;
+}
+
+/*
+#e91363
+#5d02ff
+*/
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body{
+   background-color:bisque ;
+    
+}
+
+.container{
+    background-color: rgb(0, 0, 0);
+    width: 100%;
+    height: 40px;
+}
+
+.container img{
+    position: fixed;
+    left: 0;
+    padding: 5px;
+    width: 40px;
+    height: 40px;
+    transition: background .9s;
+
+
+
+
+    /*
+    top: 0px;
+    left: 45%;
+    */
+}
+
+.container img:hover{
+    cursor: pointer;
+    background-color: #5d02ff;
+}
+
+#btnclose{
+    position: relative;
+    top: 0;
+    left: 81%;
+    width: 40px;
+    height: 40px;
+
+    transition: background .9s;
+}
+
+#btnclose:hover{
+    cursor: pointer;
+    background-color:#5d02ff;
+}
+
+
+
+
+
+nav{
+    display: none;
+    position:absolute;
+    top: 0;
+    bottom: 0;
+    width: var(--menu-size);
+    height: 100%;
+    background-color: #5d02ff;
+
+}
+
+
+ul , form{
+      
+    list-style: none;
+}
+
+li , form{
+    display: block;
+    transition: background .9s;
+    padding: 20px;
+}
+
+li:hover{
+    background: #38078d;
+}
+
+
+a{
+    text-align: center;
+    display: block;
+    text-decoration: none;
+    color: white;
+}
+
+
+.effect{
+    transition: margin .6s;
+    
+    
+}

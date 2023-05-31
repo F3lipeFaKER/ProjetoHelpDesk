@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt">
+    <head>
+        <title>Abrir Chamado</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="style.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link rel="stylesheet" href="../static/css/createticket.css">
+    </head>
+<script>
+        function exibirHoraAtual() {
+        var data = new Date();
+        var dia = data.getDate();
+        var diaSemana = obterDiaSemana(data.getDay());
+        var hora = data.getHours();
+        var minutos = data.getMinutes();
+        var segundos = data.getSeconds();
+        var mes = data.getMonth() + 1;
+
+        // Formatação dos valores com zero à esquerda se necessário
+        dia = (dia < 10 ? "0" : "") + dia;
+        hora = (hora < 10 ? "0" : "") + hora;
+        minutos = (minutos < 10 ? "0" : "") + minutos;
+        segundos = (segundos < 10 ? "0" : "") + segundos;
+
+
+        // Concatenação da hora formatada
+        var horaAtual = hora + ":" + minutos + ":" + segundos + diaSemana + dia;
+
+        // Atualiza o conteúdo do elemento com o ID "hora-atual"
+        document.getElementById("hora-atual").textContent = horaAtual;
+    }
+
+    // Função auxiliar para obter o dia da semana por extenso
+    function obterDiaSemana(dia) {
+        var diasSemana = [" Dom, ", " Seg, ", " Ter, ", " Qua, ", " Qui, ", " Sex, ", "Sáb, "];
+        return diasSemana[dia];
+    }
+
+    // Chama a função a cada segundo para manter a hora atualizada
+    setInterval(exibirHoraAtual, 1000);
+
+    document.addEventListener('DOMContentLoaded', function() {
+    // Seleciona todos os itens da lista de clientes
+    const listaClientes = document.querySelectorAll('.clientes ul li');
+
+    // Adiciona um evento de clique em cada item da lista
+    listaClientes.forEach(function(item) {
+        item.addEventListener('click', function() {
+            // Obtém o nome do cliente selecionado
+            const nomeCliente = item.textContent;
+
+            // Define o valor do campo de input "cliente" com o nome do cliente selecionado
+            document.getElementById('cliente').value = nomeCliente;
+        });
+    });
+});
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.min.js" integrity="sha512-DkqdvYdj9y6INf9ag+go+QXQ/DOT8SZeky/8M0WfdAdXAM9ghfpWbuhU5p5qOKR/h2Ef1Fl+uYV2nICfuPfj0w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const socket = io();
+
+            socket.on('novo_ticket', () => {
+                location.reload();
+            });
+        });
+    </script>
+
+<body>
+<nav class="navi">
+    <p id="hora-atual"></p>
+</nav>
+
+    <nav class="menu" id="menu">
+        <ul>
+          <li class="menu-item">
+            <form method="POST" action="/" class="logo">
+                <button type="submit" id="logo" alt="Logo"></button>
+              </form>
+          </li>
+          <li class="menu-item">
+            <form method="POST" action="/" class="home">
+              <button type="submit" id="home"></button>
+              <span class="legenda">Home</span>
+            </form>
+          </li>
+          <li class="menu-item">
+            <form method="POST" action="/criar_ticket">
+              <button type="submit" id="criar_ticket"></button>
+              <span class="legenda">Criar Chamado</span>
+            </form>
+          </li>
+          <li class="menu-item">
+            <form method="POST" action="/tickets_fechados">
+              <button type="submit" id="tickets"></button>
+              <span class="legenda">Chamados Fechados</span>
+            </form>
+          </li>
+          <li class="menu-item">
+            <form method="POST" action="/logout">
+              <button type="submit" id="logout" class="logout"></button>
+              <span class="legenda">Sair</span>
+            </form>
+          </li>
+        </ul>
+      </nav>
+      <div class="user">
+        <label for="autor">Usuario:</label>
+        <div class="user-online-indicator "></div>
+        <input type="text" id="autor" name="autor" value="{{ session['nome_atendente'] }}" readonly><br>
+        <div class="sonar"></div>
+    </div> 
+
+      <div class="formulario">
+        <form method="POST" action="{{ url_for('criar_ticket') }}">
+              <div class="form-group">
+                <label for="cliente">Cliente:</label>
+                <input type="text" class="form-control" name="cliente" id="cliente" required>
+            </div>
+            <div class="form-group">
+                <label for="descricao">Número Telefone: </label>
+                <input class="form-control" name="telefone_cliente" id="telefone_cliente" required>
+              </div>
+            <div class="form-group">
+              <label for="assunto">Assunto:</label>  <!-- Campo "assunto" adicionado -->
+              <input type="text" class="form-control" name="assunto" id="assunto" required>
+            </div>
+            <div class="form-group">
+              <label for="descricao">Descrição:</label>
+              <textarea class="form-control" name="descricao" id="descricao" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="status">Status:</label>
+              <select class="form-control" name="status" id="status">
+                <option value="Aberto">Aberto</option>
+                <option value="Fechado">Fechado</option>
+                <option value="Pendente">Pendente</option>                
+              </select>
+            </div>
+            <div class="form-group">
+                <select class="form-control" name="origem" id="origem">
+                    <option value="Whatsapp">Whatsapp</option>
+                    <option value="Ligação">Ligação</option>
+                    <option value="Presencial">Presencial</option>
+                </select>
+            </div>
+            <button class="custom-btn" id="btn-7"><span>Criar Ticket</span></button>
+          </form>
+        </div>
+        
+        <div class="notification-new-ticket">
+          <h2>Tickets Abertos</h2>
+          {% if tickets %}
+              <ul>
+              {% for ticket in tickets %}
+                  {% if ticket.status == 'Aberto' %}  <!-- Adicione esta condição -->
+                      <li>
+                        <div class="balao">
+                          Ticket: {{ ticket.numero }},
+                      <b> Cliente: {{ ticket.cliente }},</b>
+                          Descrição: {{ ticket.descricao }},
+                          <a href="{{ url_for('exibir_ticket', numero_ticket=ticket.numero) }}">Acesse</a>
+                        </div>
+                        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        {% if ticket.status == 'Aberto' %}
+                        <form method="POST" action="/fechar_ticket/{{ ticket.numero }}">
+                          <div class="power-switch">
+                            
+                            <input id="myInput" type="checkbox"  class="check "/>
+                            
+                          
+                          
+                            <div class="button">
+                              <svg class="power-off">
+                                <use xlink:href="#line" class="line" />
+                                <use xlink:href="#circle" class="circle" />
+                              </svg>
+                              <svg class="power-on">
+                                <use xlink:href="#line" class="line" />
+                                <use xlink:href="#circle" class="circle" />
+                              </svg>
+                            </div>
+                          </div>
+                          
+                          <!-- SVG -->
+                          <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150" id="line">
+                              <line x1="75" y1="34" x2="75" y2="58"/>
+                            </symbol>
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150" id="circle">
+                              <circle cx="75" cy="80" r="35"/>
+                            </symbol>
+                          </svg>
+                        
+
+                        </form>
+                        {% endif %}      
+                         
+                      </li>
+                  {% endif %}
+              {% endfor %}
+              </ul>
+          {% else %}
+              <p>Nenhum ticket aberto.</p>
+          {% endif %}
+        </div>
+      <div class="clientes">
+        <h2>Clientes</h2>
+        {% if clientes %}
+            <ul>
+            {% for cliente in clientes %}
+                <li>{{ cliente.nome }}</li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>Nenhum cliente disponível.</p>
+        {% endif %}
+
+      </div>
+
+
+
+      
+      <script>
+        function toggleInputType() {
+          var input = document.getElementById("myInput");
+        
+          if (input.type === "checkbox") {
+            input.type = "submit";
+          } else {
+            input.type = "checkbox";
+          }
+        }
+        </script>
+
+    
+        <script>
+
+     // Adiciona um listener para capturar o evento de envio do formulário
+    document.addEventListener('submit', function(event) {
+        // Obtém o elemento de input
+        var telefoneInput = document.getElementById("telefone_cliente");
+        
+        // Obtém o valor atual do campo
+        var valorAtual = telefoneInput.value;
+        
+        // Acrescenta o valor desejado ao final do campo
+        var novoValor = valorAtual + "@c.us";
+        
+        // Define o novo valor no campo de input
+        telefoneInput.value = novoValor;
+    });
+
+        </script>
+    </body>
+</html>
+
+
+
+

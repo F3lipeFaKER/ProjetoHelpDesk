@@ -1,0 +1,212 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+html,body{
+  height: 100%;
+}
+body{
+  height: 100%;
+  width: 100%;
+  background-color: rgb(255, 255, 255);
+}
+
+.navi{
+  background-color:#ffffff;
+  width: 100%;
+  height: 50px;
+  z-index: 2;
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
+  top: 0;
+  left: 0;
+  position: fixed;
+}
+#hora-atual {
+  font-size: 20px;
+  color:rgb(54, 170, 162);
+  float: right;
+  margin-right: 45px;
+  margin-top: 10px;
+}
+.menu{
+  position: fixed;
+ 
+  background: rgb(74,230,220);
+  background: linear-gradient(233deg, rgba(74,230,220,1) 0%, rgba(0,0,0,1) 100%);
+  width: 60px;
+  height: 100%;
+  z-index: 2;
+  color: white;
+  
+  flex-direction: column;
+  flex-grow: 1;
+  min-height: auto;
+  
+}
+
+
+
+.menu  form {
+  font-size: 40px;
+  color: #fff;
+  text-align:center;
+  text-decoration: none;
+  margin-top: 1px;
+
+}
+
+.menu form  button{
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  /*background-color: rgba(0, 0, 0, 0.0);*/
+  font-size: 20px;
+  display: flex;
+  width: 100%;
+ 
+  padding: 20px;
+  border: none;
+  
+}
+
+#logo{
+  background-image: url(../static/img/sidebar/letter-f.png);
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  width: 20px;
+  height: 20px;
+  background-size: 30px;
+  background-color: rgba(0, 0, 0, 0.0);
+  margin-left: 10px;
+  border: none;
+  position: fixed;
+  top: 0;
+}
+
+
+#home{
+  background-image: url(../static/img/sidebar/botao-home.png);
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  width: 20px;
+  height: 20px;
+  background-size: 20px;
+  background-color: rgba(0, 0, 0, 0.0);
+  margin-left: 10px;
+  border: none;
+  margin-top: 35px;
+}
+#criar_ticket{
+  background-image: url(../static/img/sidebar/chamar.png);
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  width: 20px;
+  height: 20px;
+  background-size: 20px;
+  background-color: rgba(0, 0, 0, 0.0);
+  margin-left: 10px;
+  border: none;
+}
+#tickets{
+  background-image: url(../static/img/sidebar/tickets.png);
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  width: 20px;
+  height: 20px;
+  background-size: 20px;
+  background-color: rgba(0, 0, 0, 0.0);
+  margin-left: 10px;
+  border: none;
+}
+#logout{
+  background-image: url(../static/img/sidebar/sair.png);
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  width: 20px;
+  height: 20px;
+  background-size: 20px;
+  background-color: rgba(0, 0, 0, 0.0);
+  margin-left: 10px;
+  border: none;
+  position: fixed;
+  bottom: 0;
+}
+
+
+.menu .menu-item {
+  position: relative;
+}
+
+.menu .menu-item .legenda {
+  
+  position: absolute;
+  left: -50%;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgb(54, 170, 162);
+  color: #fff;
+  padding: 5px 10px;
+  font-size: 14px;
+  white-space: nowrap;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.3s, left 0.3s;
+  border-radius: 2px;
+}
+
+.menu .menu-item:hover .legenda {
+  left: 100%;
+  visibility: visible;
+  opacity: 1;
+  transition:.5s;
+  
+}
+
+.menu-item form:hover{
+  transition: background 2s;
+  background-color: rgb(54, 170, 162);
+}
+
+
+
+
+/*------------------------------------------------------------*/
+
+
+
+.mensagem {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.mensagem.atendente {
+  justify-content: flex-end;
+}
+
+.mensagem .autor {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.mensagem .texto {
+  background-color: #dcf8c6;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.mensagem.atendente .texto {
+  background-color: #fff;
+}
+
+.mensagem.cliente .texto {
+  background-color: #dcf8c6;
+}

@@ -1,0 +1,5 @@
+{% for mensagem in ticket.mensagens %}
+    <p class="{% if mensagem.tipo_autor == 'Atendente' %}atendente{% else %}ticket.cliente{% endif %}">
+        {{ mensagem.autor }}: {{ mensagem.texto }}
+    </p>
+{% endfor %}

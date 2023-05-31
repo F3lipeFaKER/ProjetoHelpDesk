@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="style.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link rel="stylesheet" href="../static/css/style-ticket.css">
+    </head>
+<script>
+        function exibirHoraAtual() {
+        var data = new Date();
+        var dia = data.getDate();
+        var diaSemana = obterDiaSemana(data.getDay());
+        var hora = data.getHours();
+        var minutos = data.getMinutes();
+        var segundos = data.getSeconds();
+        var mes = data.getMonth() + 1;
+
+        // Formatação dos valores com zero à esquerda se necessário
+        dia = (dia < 10 ? "0" : "") + dia;
+        hora = (hora < 10 ? "0" : "") + hora;
+        minutos = (minutos < 10 ? "0" : "") + minutos;
+        segundos = (segundos < 10 ? "0" : "") + segundos;
+
+
+        // Concatenação da hora formatada
+        var horaAtual = hora + ":" + minutos + ":" + segundos + diaSemana + dia;
+
+        // Atualiza o conteúdo do elemento com o ID "hora-atual"
+        document.getElementById("hora-atual").textContent = horaAtual;
+    }
+
+    // Função auxiliar para obter o dia da semana por extenso
+    function obterDiaSemana(dia) {
+        var diasSemana = [" Dom, ", " Seg, ", " Ter, ", " Qua, ", " Qui, ", " Sex, ", "Sáb, "];
+        return diasSemana[dia];
+    }
+
+    // Chama a função a cada segundo para manter a hora atualizada
+    setInterval(exibirHoraAtual, 1000);
+</script>
+
+<body>
+<nav class="navi">
+    <p id="hora-atual"></p>
+</nav>
+
+    <nav class="menu" id="menu">
+        <ul>
+          <li class="menu-item">
+            <form method="POST" action="/" class="logo">
+                <button type="submit" id="logo" alt="Logo"></button>
+              </form>
+          </li>
+          <li class="menu-item">
+            <form method="POST" action="/" class="home">
+              <button type="submit" id="home"></button>
+              <span class="legenda">Home</span>
+            </form>
+          </li>
+          <li class="menu-item">
+            <form method="POST" action="/criar_ticket">
+              <button type="submit" id="criar_ticket"></button>
+              <span class="legenda">Criar Chamado</span>
+            </form>
+          </li>
+          <li class="menu-item">
+            <form method="POST" action="/tickets_fechados">
+              <button type="submit" id="tickets"></button>
+              <span class="legenda">Chamados Fechados</span>
+            </form>
+          </li>
+          <li class="menu-item">
+            <form method="POST" action="/logout">
+              <button type="submit" id="logout" class="logout"></button>
+              <span class="legenda">Sair</span>
+            </form>
+          </li>
+        </ul>
+      </nav>
+      <div class="user">
+        <label for="autor">Usuario:</label>
+        <div class="user-online-indicator "></div>
+        <input type="text" id="autor" name="autor" value="{{ session['nome_atendente'] }}" readonly><br>
+        <div class="sonar"></div>
+    </div> 
+
+    <table>
+        <tr>
+            <th>Número</th>
+            <th>Cliente</th>
+            <th>Assunto</th>
+            <th>Descrição</th>
+            <th>Tempo Ocorrido</th>
+        </tr>
+        {% for ticket in tickets_fechados %}
+            <tr data-conversa="{% for mensagem in ticket.mensagens %}{{ mensagem.autor }}: {{ mensagem.texto }}<br>{% endfor %}" class="ticket-row">
+                <td>{{ ticket.numero }}</td>
+                <td>{{ ticket.cliente }}</td>
+                <td>{{ ticket.assunto }}</td>
+                <td>{{ ticket.descricao }}</td>
+                <td>{{ ticket.tempo_ocorrido }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    
+    <div id="conversa-container" style="display: none;">
+        <h3>Conversa:</h3>
+        <div id="conversa"></div>
+    </div>
+    
+
+
+    
+
+    <form method="POST" action="/relatorio">
+        <label for="quantos_tickets_atendidos">
+          <input type="checkbox" id="quantos_tickets_atendidos" name="quantos_tickets_atendidos">
+          Quantos Tickets Atendidos
+        </label>
+        <br>
+        <label for="clientes_com_mais_chamados">
+          <input type="checkbox" id="clientes_com_mais_chamados" name="clientes_com_mais_chamados">
+          Clientes com Mais Chamados
+        </label>
+        <br>
+        <label for="maiores_tempos_corridos">
+          <input type="checkbox" id="maiores_tempos_corridos" name="maiores_tempos_corridos">
+          Maiores Tempos Decorridos de Chamados
+        </label>
+        <br>
+        <label for="chamados_resolvidos">
+          <input type="checkbox" id="chamados_resolvidos" name="chamados_resolvidos">
+          Chamados Resolvidos
+        </label>
+        <br>
+        <label for="chamados_pendentes">
+          <input type="checkbox" id="chamados_pendentes" name="chamados_pendentes">
+          Chamados Pendentes
+        </label>
+        <br>
+        <button type="submit">Baixar Relatório</button>
+      </form>
+
+      <input type="checkbox" name="mensagens_cliente" value="1"> Baixar Mensagens Trocadas por Cliente<br>
+
+
+
+
+
+
+
+</body>
+<script>
+    const ticketRows = document.querySelectorAll('.ticket-row');
+    const conversaContainer = document.querySelector('#conversa-container');
+    const conversaDiv = document.querySelector('#conversa');
+
+    ticketRows.forEach(row => {
+        row.addEventListener('click', () => {
+            const conversa = row.getAttribute('data-conversa');
+            conversaDiv.innerHTML = conversa;
+            conversaContainer.style.display = 'block';
+        });
+    });
+
+    conversaContainer.addEventListener('click', () => {
+        conversaContainer.style.display = 'none';
+    });
+</script>
+<script>
+    'use strict'
+
+        const menuSize  = '250px';
+
+        document.querySelector('#btnmenu').addEventListener('click', e => {
+
+
+            document.querySelector('#menu').style.display = 'block'
+
+            document.querySelector('#menu').style.marginLeft = 0; 
+
+        });
+
+        document.querySelector('#btnclose').addEventListener('click', e => {
+
+
+
+            document.querySelector('#menu').style.marginLeft = `-${menuSize}`;
+
+        });
+
+
+</script>
+</html>

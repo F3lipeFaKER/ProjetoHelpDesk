@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../static/css/style-ticket.css">
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            function exibirHoraAtual() {
+            var data = new Date();
+            var dia = data.getDate();
+            var diaSemana = obterDiaSemana(data.getDay());
+            var hora = data.getHours();
+            var minutos = data.getMinutes();
+            var segundos = data.getSeconds();
+            var mes = data.getMonth() + 1;
+
+            // Formatação dos valores com zero à esquerda se necessário
+            dia = (dia < 10 ? "0" : "") + dia;
+            hora = (hora < 10 ? "0" : "") + hora;
+            minutos = (minutos < 10 ? "0" : "") + minutos;
+            segundos = (segundos < 10 ? "0" : "") + segundos;
+
+
+            // Concatenação da hora formatada
+            var horaAtual = hora + ":" + minutos + ":" + segundos + diaSemana + dia;
+
+            // Atualiza o conteúdo do elemento com o ID "hora-atual"
+            document.getElementById("hora-atual").textContent = horaAtual;
+        }
+
+        // Função auxiliar para obter o dia da semana por extenso
+        function obterDiaSemana(dia) {
+            var diasSemana = [" Dom, ", " Seg, ", " Ter, ", " Qua, ", " Qui, ", " Sex, ", "Sáb, "];
+            return diasSemana[dia];
+        }
+
+        // Chama a função a cada segundo para manter a hora atualizada
+        setInterval(exibirHoraAtual, 1000);
+        </script>
+    </head>
+    <body>
+        <nav class="navi">
+            <p id="hora-atual"></p>
+        </nav>
+        <div class="sidebar">
+            
+            <ul>
+            <img src="./Img/logo_menu_viptech.png" class="logo" href="../dashboard/dashboard.html">
+  
+              <form method="POST" action="/">
+                  <input type="submit" value="" id="Home">
+              </form>
+              
+  
+              <form method="POST" action="/criar_ticket">
+                  <input type="submit" value="Abrir Chamado" id="criar_ticket">
+              </form>
+  
+              <form method="POST" action="/tickets_fechados">
+                  <input type="submit" value="Chamados Encerrados" id="tickets">
+              </form>
+  
+              <form method="POST" action="/logout">
+                  <input type="submit" value="Sair" id="logout">
+              </form>
+              
+          </ul>
+        </div>
+        <form method="POST" action="/adicionar_mensagem/{{ ticket.numero }}"></form>
+        {% if ticket.status == 'Aberto' %}
+        <div class="ticket">
+            <div class="send-ticket">
+                <img class="avatar">
+                <label for="autor">Usuario Conectado:</label>
+                 <input type="text" id="autor" name="autor" value="{{ session['nome_atendente'] }}" readonly><br>
+                <form action="" class="body-card" id="myForm">
+                    <div class="container"></div>
+                    <ul id="message-container">
+                      <div id="mensagens">
+                        {% for mensagem in ticket.mensagens %}
+                            <p class="{% if mensagem.tipo_autor == 'Atendente' %}atendente{% else %}ticket.cliente{% endif %}">
+                                {{ mensagem.autor }}: {{ mensagem.texto }}
+                            </p>
+                        {% endfor %}
+                    </div>
+                    </ul>
+                    
+            </div>
+        </div>
+                    <div class="chamado">
+                        <img src="./Img/bater-papo.png" class="imgchama">
+                        <h3>Detalhes do Ticket</h3>
+                              <p>
+                              Número do Ticket: {{ ticket.numero }}<br>
+                              Cliente: {{ ticket.cliente }}<br>
+                              Número Telefone: {{ ticket.telefone_cliente}}<br>
+                              Assunto: {{ ticket.assunto }}<br>
+                              Descrição: {{ ticket.descricao }}<br>
+                              Origem: {{ ticket.origem }}<br>
+                              Status: {{ ticket.status }}
+                              </p>
+
+                              {% if ticket.data_inicial %}
+                              <p>Data Inicial: {{ ticket.data_inicial }}</p>
+                              {% endif %}
+
+                              {% if ticket.data_final %}
+                              <p>Data Final: {{ ticket.data_final }}</p>
+                              <p>Tempo Ocorrido: {{ ticket.tempo_ocorrido }}</p>
+                              {% endif %}
+
+
+                         
+                                    
+                                    
+                                        
+                                      
+                                        
+                                    
+                                
+                                
+
+                        
+                            <div class="chat-container">
+                              <ul id="conversation-list"></ul>
+                            <div class="input-container">
+                                <textarea id="mensagem" placeholder="Escreva sua mensagem"  name="mensagem" required></textarea><br>
+  
+                                <input type="submit" value="Adicionar Mensagem" id="send-button" value="Enviar">
+                              </form>
+                          {% endif %}
+                          {% if ticket.status == 'Aberto' %}
+                                          <form method="POST" action="/fechar_ticket/{{ ticket.numero }}">
+                                              <input type="submit" value="Fechar Ticket">
+                                          </form>
+                                      {% endif %}
+                            </div>
+                            </div>
+                        </form>
+                        
+                    </div>
+                </form>
+                <input type="hidden" id="userId" name="userId" value="">
+                <input type="submit" value="Enviar" onclick="setUserId()">
+    </body>
+    <script>
+        // Definir o ID do usuário antes de enviar o formulário
+        function setUserId() {
+          const userId = socket.id;
+          document.getElementById('userId').value = userId;
+        }
+    
+        const socket = io();
+    
+        // Adicionar mensagem à lista e atualizar a lista de conversas
+        function addMessage(message, sender, conversationId) {
+          const messageContainer = document.createElement('div');
+          messageContainer.classList.add('message-container');
+    
+          const senderElement = document.createElement('div');
+          senderElement.classList.add('message-sender');
+          senderElement.textContent = sender;
+    
+          const messageElement = document.createElement('div');
+          messageElement.textContent = message;
+          messageElement.classList.add(sender === 'Você' ? 'sent-message' : 'received-message');
+    
+          messageContainer.appendChild(senderElement);
+          messageContainer.appendChild(messageElement);
+    
+          document.getElementById('message-container').appendChild(messageContainer);
+    
+          // Atualizar a lista de conversas
+          updateConversationList(conversationId, sender);
+        }
+    
+        // Atualizar a lista de conversas
+        function updateConversationList(conversationId, sender) {
+          const conversationList = document.getElementById('conversation-list');
+          const existingConversationItem = document.getElementById(conversationId);
+    
+          if (existingConversationItem) {
+            // Atualizar o item existente
+            existingConversationItem.textContent = `${sender}: Nova mensagem`;
+          } else {
+            // Adicionar um novo item à lista
+            const conversationItem = document.createElement('li');
+            conversationItem.id = conversationId;
+            conversationItem.textContent = `${sender}: Nova mensagem`;
+    
+            // Definir o evento de clique para selecionar a conversa
+            conversationItem.addEventListener('click', () => {
+              selectConversation(conversationId);
+            });
+    
+            conversationList.appendChild(conversationItem);
+          }
+        }
+    
+        // Selecionar uma conversa
+        function selectConversation(conversationId) {
+          // Limpar as mensagens exibidas anteriormente
+          const messageContainer = document.getElementById('message-container');
+          messageContainer.innerHTML = '';
+    
+          // Exibir as mensagens da conversa selecionada
+          const conversation = conversations[conversationId];
+          for (const message of conversation.messages) {
+            addMessage(message.text, message.sender, conversationId);
+          }
+        }
+    
+        // Receber as mensagens iniciais
+        socket.on('initialMessages', (messages) => {
+          for (const message of messages) {
+            addMessage(message.text, message.sender, message.conversationId);
+          }
+        });
+    
+        // Receber nova mensagem
+        socket.on('newMessage', (message) => {
+          addMessage(message.text, message.sender, message.conversationId);
+        });
+    
+        // Enviar mensagem
+        document.getElementById('myForm').addEventListener('submit', function(event) {
+          event.preventDefault();
+    
+          const userId = document.getElementById('userId').value;
+          const number = document.getElementById('number').value;
+          const message = document.getElementById('message').value;
+    
+          const url = `/api/message?userId=${encodeURIComponent(userId)}&number=${encodeURIComponent(number)}&message=${encodeURIComponent(message)}`;
+    
+          fetch(url)
+            .then(response => response.json())
+            .then(data => {
+              console.log(data);
+              // Limpar campos de número e mensagem
+              document.getElementById('number').value = '';
+              document.getElementById('message').value = '';
+              // Exibir a mensagem enviada na lista de mensagens
+              addMessage(message, 'Você', userId);
+            })
+            .catch(error => console.error(error));
+        });
+        </script>
+</html>

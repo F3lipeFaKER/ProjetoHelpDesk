@@ -1,0 +1,134 @@
+<a href="{{ url_for('exibir_tickets_fechados') }}">Visualizar Tickets Fechados</a>
+
+<tr data-conversa="{{ ticket.mensagens }}"></tr>
+
+
+gerar telatorio foda
+
+
+<form method="GET" action="/gerar_relatorio">
+    <input type="submit" value="Gerar Relatório" id="gerar_relatorio">
+</form>
+
+
+@app.route('/gerar_relatorio', methods=['GET'])
+@login_required
+def gerar_relatorio():
+    # Obtém as informações necessárias para o relatório
+    quantidade_tickets_atendidos = len(helpdesk.tickets_fechados)
+    clientes_com_mais_chamados = get_clientes_com_mais_chamados()
+    maiores_tempos_corridos = get_maiores_tempos_corridos()
+    chamados_resolvidos = len([ticket for ticket in helpdesk.tickets_fechados if ticket.status == 'Fechado'])
+    chamados_pendentes = len([ticket for ticket in helpdesk.tickets_fechados if ticket.status != 'Fechado'])
+
+    # Cria o conteúdo HTML do relatório
+    relatorio_html = f'''
+    <html>
+        <head>
+            <title>Relatório de Tickets Fechados</title>
+        </head>
+        <body>
+            <h1>Relatório de Tickets Fechados</h1>
+            <h2>Opções:</h2>
+            <ul>
+                <li>Quantidade de Tickets Atendidos: {quantidade_tickets_atendidos}</li>
+                <li>Clientes com Mais Chamados: {maiores_tempos_corridos}</li>
+                <li>Maiores Tempos Corridos:{maiores_tempos_corridos} </li>
+                <li>Chamados Resolvidos: {chamados_resolvidos}</li>
+                <li>Chamados Pendentes: {chamados_pendentes}</li>
+            </ul>
+        </body>
+    </html>
+    '''
+
+    # Cria a resposta HTTP com o conteúdo HTML do relatório
+    response = make_response(relatorio_html)
+    response.headers['Content-Type'] = 'text/html'
+    response.headers['Content-Disposition'] = 'attachment; filename=tickets_fechados.html'
+    return response
+
+
+
+
+
+
+
+install :
+
+helpdesk
+
+pip install Pillow
+Flask: pip install flask
+Pillow: pip install pillow
+
+
+
+
+
+
+
+
+
+
+
+
+homepage:
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="./style.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container clearfix">
+    <div class="people-list" id="people-list">
+      <div class="search">
+        <input type="text" placeholder="Procurar" />
+      </div>
+      <ul>
+        <li>
+          <img src="./static/img/avatar.png" alt="avatar" />
+          <div class="about">
+            <div class="name">Felipe</div>
+            <div class="status online">Online</div>
+          </div>
+        </li>
+        <!-- Outras pessoas da lista -->
+      </ul>
+    </div>
+  
+    <div class="chat">
+      <div class="chat-header clearfix">
+        <img src="./static/img/avatar.png" alt="avatar" />
+        <div class="chat-about">
+          <div class="chat-with">Felipe</div>
+        </div>
+      </div>
+    
+      <div class="chat-history">
+        <ul>
+          <li class="clearfix">
+            <div class="message-data align-right">
+              <span class="message-data-time">10:10 AM, Hoje</span> &nbsp; &nbsp;
+              <span class="message-data-name">Olia</span> <i class="fa fa-circle me"></i>
+            </div>
+            <div class="message other-message float-right">
+              Olá! Como posso ajudar?
+            </div>
+          </li>
+          <!-- Outras mensagens do histórico -->
+        </ul>
+      </div>
+    
+      <div class="chat-message clearfix">
+        <textarea name="message-to-send" id="message-to-send" placeholder="Digite sua mensagem" rows="1"></textarea>
+        <button>Enviar</button>
+      </div>
+    </div>
+    <div class="ticket">
+
+    </div>
+  </div>
+</body>
+</html>

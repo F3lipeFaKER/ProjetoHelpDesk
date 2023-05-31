@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt">
+    <head>
+        <title>Login</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style-login.css') }}">
+        <link rel="stylesheet" href="../static/css/style-login.css">
+
+        <link rel="preload" href="style-login.css" as="style">
+    </head>
+    <body>
+
+        <form method="POST" action="/login" class="form">
+            <h2>(:</h2>
+            <span>Nome de Usuário:</span>
+            <input type="text" class="user" id="atendente" name="atendente" required><br><br>
+            <span>Senha:</span>
+            <input type="password" id="senha" name="senha" required><br><br>
+
+            <input type="submit" value="Login" class="entrar">
+
+            <p>Esqueceu a senha? <a href="./Pags/redef-email/redef-email.html">Clique aqui</a></p>
+        </div>
+    </body>
+</html>
+

@@ -1,0 +1,501 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+html,body{
+  height: 100%;
+}
+body{
+
+  height: 100%;
+  width: 100%;
+  background-color: rgb(255, 255, 255);
+}
+
+.navi  {
+  background-color:#ffffff;
+  width: 100%;
+  height: 50px;
+  z-index: 0;
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
+  top: 0;
+  left: 0;
+  position: fixed;
+}
+
+.user{
+  font-family: 'Times New Roman', Times, serif;
+  position: fixed;
+  color: black;
+  z-index: 0;
+  top: 14px;
+  right: 165px;
+  position: flex;
+}
+
+.user input{
+  padding: 10px;
+  border-radius: 50px;
+  width: 60px;
+  height: 7px;
+  border: none;
+}
+.user-online-indicator {
+  width: 5px;
+  height: 5px;
+  background-color: rgb(26, 250, 6);
+  position: absolute;
+  bottom: 0px;
+  right: 5px;
+  border-radius: 50%;
+  z-index: 4;
+}
+.sonar {
+  z-index: 5;
+  bottom: -10px;
+  right: -5px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: rgb(26, 250, 6);
+  position: absolute;
+  
+  animation: sonarEffect 1.5s ease-out infinite;
+  transform-origin: center;
+}
+
+.user input:focus{
+    box-shadow: 0 0 0 0;
+    border: 0 none;
+    outline: 0;
+}
+
+#hora-atual {
+  position: fixed;
+  font-size: 20px;
+  color:rgb(54, 170, 162);
+  right: 7px;
+  top: 12px;
+  z-index: 5;
+}
+.menu{
+  position: fixed;
+ 
+  background: rgb(74,230,220);
+  background: linear-gradient(233deg, rgba(74,230,220,1) 0%, rgba(0,0,0,1) 100%);
+  width: 50px;
+  height: 100%;
+  z-index: 2;
+  color: white;
+  
+  flex-direction: column;
+  flex-grow: 1;
+  min-height: auto;
+  
+}
+
+
+
+.menu  form {
+  font-size: 40px;
+  color: #fff;
+  text-align:center;
+  text-decoration: none;
+  margin-top: 1px;
+
+}
+
+.menu form  button{
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  /*background-color: rgba(0, 0, 0, 0.0);*/
+  font-size: 20px;
+  display: flex;
+  width: 100%;
+ 
+  padding: 20px;
+  border: none;
+  
+}
+
+#logo{
+  background-image: url(../img/sidebar/letter-f.png);
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  width: 20px;
+  height: 20px;
+  background-size: 20px;
+  background-color: rgba(0, 0, 0, 0.0);
+  margin-left: 15%;
+  border: none;
+}
+
+
+#home{
+  background-image: url(../img/sidebar/botao-home.png);
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  width: 20px;
+  height: 20px;
+  background-size: 20px;
+  background-color: rgba(0, 0, 0, 0.0);
+  margin-left: 15%;
+  border: none;
+  margin-top: 70%;
+}
+#criar_ticket{
+  background-image: url(../img/sidebar/chamar.png);
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  width: 20px;
+  height: 20px;
+  background-size: 20px;
+  background-color: rgba(0, 0, 0, 0.0);
+  margin-left: 15%;
+  border: none;
+}
+#tickets{
+  background-image: url(../img/sidebar/tickets.png);
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  width: 20px;
+  height: 20px;
+  background-size: 20px;
+  background-color: rgba(0, 0, 0, 0.0);
+  margin-left: 15%;
+  border: none;
+}
+#logout{
+  background-image: url(../img/sidebar/sair.png);
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  width: 20px;
+  height: 20px;
+  background-size: 20px;
+  background-color: rgba(0, 0, 0, 0.0);
+  margin-left: 15%;
+  border: none;
+  
+}
+
+
+.menu .menu-item {
+  position: relative;
+}
+
+.menu .menu-item .legenda {
+  
+  position: absolute;
+  left: -50%;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgb(54, 170, 162);
+  color: #fff;
+  padding: 5px 10px;
+  font-size: 14px;
+  white-space: nowrap;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.3s, left 0.3s;
+  border-radius: 2px;
+}
+
+.menu .menu-item:hover .legenda {
+  left: 100%;
+  visibility: visible;
+  opacity: 1;
+  transition:.5s;
+  
+}
+
+.menu-item form:hover{
+  transition: background 2s;
+  background-color: rgb(54, 170, 162);
+}
+
+
+
+
+
+
+
+
+
+@keyframes sonarEffect {
+  0% {
+    transform: scale(0.1);
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+
+
+
+
+
+
+/*------------------------------------------------------------*/
+
+.barleaft{
+
+  display: inline-block;
+
+}
+.notification-new-ticket{
+  border: none;
+  position: fixed;
+  right: 18px;
+  top: 320px;
+  
+  width: 30%;
+  text-align: center;
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
+  padding: 5px 0;
+}
+.notification-new-ticket ul {
+  text-decoration: none;
+}
+
+
+#mensagens {
+  
+  padding: 15px 30px;
+  border: none;
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
+  top: 8%;
+  right: 33%;
+  position: absolute;
+  width: 62%;
+  height: 81%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-height: 81%; /* Defina uma altura fixa para o contêiner */
+  overflow-y: auto; /* Habilita a barra de rolagem */
+  scrollbar-width: thin; /* Define a espessura da barra de rolagem */
+  scrollbar-color: transparent transparent transparent; /* Define a cor da barra de rolagem (transparente) */
+}
+
+#mensagen::-webkit-scrollbar-track
+{
+ 
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+	background-color: #ffffff;
+  
+}
+
+#mensagens::-webkit-scrollbar
+{
+  border-radius: 300px;
+	width: 3px;
+	background-color: #ffffff;
+}
+
+#mensagens::-webkit-scrollbar-thumb
+{
+  
+	background-color: #FFF;
+	background-image: -webkit-linear-gradient(90deg,
+	                                          rgba(0, 0, 0, 1) 0%,
+											  rgba(0, 0, 0, 1) 25%,
+											  transparent 100%,
+											  rgba(0, 0, 0, 1) 75%,
+											  transparent)
+}
+
+
+.chat {
+  overflow-y: scroll;
+}
+
+
+.mensagem {
+  margin-bottom: 10px;
+  max-width: 70%;
+}
+
+.atendente {
+  align-self: flex-end;
+  background-color: #DCF8C6;
+  color: #333;
+  border-radius: 20px;
+  padding: 10px;
+}
+
+.cliente {
+  align-self: flex-start;
+  background-color: #E4E6EB;
+  color: #333;
+  border-radius: 20px;
+  padding: 10px;
+}
+
+.mensagem .autor {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.mensagem .texto {
+  margin-top: 5px;
+}
+
+
+.enviar {
+  position: absolute;
+  right: 35%;
+  bottom: 5%;
+  width: 55%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px; /* Ajuste a altura conforme necessário */
+  background-color: #ffffff; /* Cor de fundo */
+  border-top: 1px solid #ccc; /* Borda superior */
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
+
+}
+
+
+
+#mensagem{
+  width: 90%; /* Ajuste a largura conforme necessário */
+  height: 40px; /* Ajuste a altura do input */
+  padding: 10px; /* Espaçamento interno */
+  border: none; /* Remova a borda */
+  background-color: transparent; /* Fundo transparente */
+  font-size: 16px; /* Tamanho da fonte */
+}
+
+#mensagem:focus {
+  box-shadow: 0 0 0 0;
+  border: 0 none;
+  outline: 0;
+}
+
+
+#btnEnviarMensagem{
+ 
+  background-image: url(../img/send.png);
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  background-size: 20px;
+  border: none;
+  margin-top: 1px;
+  padding: 18px;
+  margin-left: 30px;
+  background-color: rgba(0, 0, 0, 0.0);
+  
+}
+
+#btnEnviarMensagem:hover{
+  transition: background 2s;
+  border-radius: 50%;
+  background-color: rgb(5, 5, 5);
+
+}
+
+.detalhes_ticket {
+  border: none;
+  position:absolute;
+  right: 18px;
+  top: 8%;
+  width: 30%;
+  text-align: center;
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
+  padding: 5px 0;
+
+}
+.detalhes_ticket h2{
+  color:rgb(54, 170, 162) ;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.detalhes_ticket p{
+  margin-top: 5px;
+  font-size: 13px;
+}
+
+.custom-btn {
+  width: 130px;
+  height: 40px;
+  color: #ffffff;
+  border-radius: 5px;
+  padding: 10px 25px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+ 
+  right: 2%;
+  bottom: 59%;
+  display: inline-block;
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
+  outline: none;
+}
+
+
+
+.btn-5 {
+  width: 140px;
+  height: 40px;
+  line-height: 42px;
+  padding: 0;
+  border: none;
+  background: rgb(54, 170, 162);
+}
+.btn-5:hover {
+  color: rgb(54, 170, 162);
+  background: transparent;
+   box-shadow:none;
+}
+.btn-5:before,
+.btn-5:after{
+  content:'';
+  position:absolute;
+  top:0;
+  right:0;
+  height:2px;
+  width:0;
+  background: rgb(54, 170, 162);
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
+  transition:400ms ease all;
+}
+.btn-5:after{
+  right:inherit;
+  top:inherit;
+  left:0;
+  bottom:0;
+}
+.btn-5:hover:before,
+.btn-5:hover:after{
+  width:100%;
+  transition:800ms ease all;
+}
+
+
+
+
+
+
+
+
+
